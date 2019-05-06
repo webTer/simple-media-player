@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="BorderStyle">
+        <Setter Property="Control.Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStop Offset="0" Color="Black" />
+                        <GradientStop Offset="1" Color="Silver" />
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Control.BorderBrush" Value="Silver"/>
+        <Setter Property="Control.BorderThickness" Value="2"/>
+        <Setter Property="Control.Width" Value="auto"/>
+        <Setter Property="Control.Height" Value="auto"/>
+    </Style>
+
+    <Style x:Key="ControlButton">
+        <Setter Property="Control.Margin" Value="11,0"/>
+        <Setter Property="Control.FontSize" Value="20"/>
+        <Setter Property="Control.Padding" Value="5"/>
+    </Style>
+</ResourceDictionary>

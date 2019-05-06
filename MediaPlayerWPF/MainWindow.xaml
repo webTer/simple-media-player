@@ -1,12 +1,122 @@
-﻿<Window x:Class="MediaPlayerWPF.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MediaPlayerWPF"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+﻿<Window
+    x:Class="MediaPlayerWPF.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MediaPlayerWPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="800"
+    Height="450"
+    AllowsTransparency="True"
+    Background="Transparent"
+    WindowStyle="None"
+    Icon="icon.ico"
+    mc:Ignorable="d">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
+    <Border Style="{StaticResource BorderStyle}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" 
+                  MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+                <Grid.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}" />
+
+                </Grid.Background>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <Menu Grid.Column="0">
+                    <MenuItem Header="File" Height="25" FontSize="18">
+                        <MenuItem Click="OnOpen" Header="Open"/>
+                        <Separator/>
+                        <MenuItem Click="OnClose" Header="Close" />
+                    </MenuItem>
+                </Menu>
+                <Button Height="25" Width="25" Click="OnClose" Grid.Column="2">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="Transparent">
+                                <Path x:Name="Pt" Data="M0,0 M0.2,0.2 L 0.8,0.8 M0.2,0.8 L0.8,0.2 M1,1"
+                      Stretch="Uniform" Stroke="Black" StrokeThickness="2"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="Red"/>
+                                    <Setter TargetName="Pt" Property="Stroke" Value="White"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="0.2*"/>
+                </Grid.ColumnDefinitions>
+
+                <MediaElement Grid.Column="0"
+                              MediaEnded="OnMediaEnded"
+                              MediaOpened="OnMediaOpened"
+                              MediaFailed="OnMediaFailed"
+                              LoadedBehavior="Manual"
+                              x:Name="player"
+                              Stretch="Fill"
+                              />
+
+                <GridSplitter Grid.Column="1"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Stretch"
+                              Width="5"/>
+
+                <ListBox Grid.Column="2"
+                         Background="Transparent"
+                         x:Name="listBox"
+                         FontSize="10"
+                         TextElement.FontSize="14"
+                         TextElement.Foreground="Red"
+                         SelectionChanged="ListBox_SelectionChanged"
+                         DisplayMemberPath="Name"/>
+
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource ControlButton}" Click="OnOpen"  Content="Open"/>
+                <Button Grid.Column="1" Style="{StaticResource ControlButton}" Click="OnPlay" Content="Play"/>
+                <Button Grid.Column="2" Style="{StaticResource ControlButton}" Click="OnPause" Content="Pause"/>
+                <Button Grid.Column="3" Style="{StaticResource ControlButton}" Click="OnStop" Content="Stop"/>
+                <Slider Grid.Column="4" Style="{StaticResource ControlButton}"
+                        VerticalAlignment="Center"
+                        x:Name="sldVolume"
+                        Value="{Binding ElementName=player, Path=Volume}"/>
+            </Grid>
+
+            <Slider Grid.Row="3" 
+                    Margin="3" 
+                    PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDown"
+                    PreviewMouseLeftButtonUp="OnPreviewMouseLeftButtonUp"
+                    x:Name="sldTimeline"/>
+        </Grid>
+    </Border>
 </Window>
